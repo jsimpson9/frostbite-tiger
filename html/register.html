@@ -1,0 +1,172 @@
+<html>
+    <head>
+        <title>Frostbite Tiger Register</title>
+
+        <script type="text/javascript" src="js/jquery/jquery-3.0.0.min.js">
+        </script>
+
+    </head>
+
+    <body bgcolor="black" text="white">
+    <!-- <body> -->
+
+        
+        <!--
+          -
+          - Main nav bar
+          -
+          -->
+        <table width="100%" bgcolor="#222222" >
+                <tr>
+                    <td width="10%">
+                        <a href="index.html">Welcome</a>
+                    </td>
+                    <td width="70%">&nbsp;</td>
+                    <td width="10%">
+                        &nbsp;
+                    </td>
+                    <td width="10%">
+                        &nbsp;
+                    </td>
+                </tr>
+        </table>
+
+        <center>
+
+            <h2>Register</h2>
+
+        </center>
+
+
+        <!--
+          -
+          - Message area
+          -
+          -->
+        <div id="msgid">
+        </div>
+
+        <!--
+          -
+          - Main reg form
+          -
+          -->
+        <center>
+
+            <form id="registerform" method="post" >
+
+                <table cellpadding='1' cellspacing='0' border='0' >
+
+                    <tr>
+                        <td align="right">
+                                Username: 
+                        </td>
+                        <td align="left">
+                                <input name="username" type="text" />
+                        </td>
+                    </tr>
+     
+                    <tr>
+                        <td align="right">
+                                Password: 
+                        </td>
+                        <td align="left">
+                                <input name="password" type="password" />
+                        </td>
+                    </tr>
+                
+                    <tr>
+                        <td align="right">
+                                Confirm password: 
+                        </td>
+                        <td align="left">
+                                <input name="confpassword" type="password" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right">
+                                Email: 
+                        </td>
+                        <td align="left">
+                                <input name="email" type="text" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right">
+                                Registration code (optional): 
+                        </td>
+                        <td align="left">
+                                <input name="regcode" type="text" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right">
+                                <input  type="button" 
+                                        id="cancelbutton" value="Cancel"/>
+                        </td>
+                        <td align="left">
+                                <input  type="button" 
+                                        id="registerbutton" value="Register"/>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        </center>
+
+        <script type="text/javascript">
+
+            //
+            // Redirect to home if we are already logged in
+            //
+            $( document ).ready(function() {
+
+                $.post('SessionServlet', {}, function(result) {
+
+                    var jsonObj = $.parseJSON(result);
+
+                    if(jsonObj.retObject) {
+                        window.location.replace('home.html');
+                    }
+
+                });
+            });
+
+
+            $("#cancelbutton").click(function() {
+                    window.location.href = 'index.html';
+            });
+
+            $("#registerbutton").click(function() {
+                //
+                // alert('Register button clicked!');
+                //
+                var data = $('#registerform').serialize() + 
+                                                '&operation=adduser';
+
+                $.post('UserServlet', data, function(result) {
+
+                    var jsonObj = $.parseJSON(result);
+
+                    if(jsonObj.retError) {
+                        $("#msgid").text(jsonObj.retMessage);
+                    } else {
+                        $("#msgid").text("User created successfully.");
+                        window.location.href = 'login.html';
+                    }
+
+                });
+            });
+
+        </script>
+
+
+    </body>
+
+</html>
+

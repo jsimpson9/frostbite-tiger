@@ -1,0 +1,104 @@
+<project name="frostbite-tiger" default="compile" basedir=".">
+
+    <property name="src"    location="src"      />
+    <property name="lib"    location="lib"      />
+    <property name="conf"   location="conf"     />
+    <property name="html"   location="html"     />
+    <property name="work"   location="work"     />
+
+    <!-- 
+      - 
+      - Generated dirs 
+      -
+      -->
+    <property name="build"      location="generated-build"  />
+    <property name="dist"       location="generated-dist"   />
+    <property name="war"        location="generated-war"    />
+
+    <property name="war-file"    location="frostbite-tiger.war"    />
+    
+    <target name="clean" description="Clean the build">
+
+        <delete dir="${build}"      />
+        <delete dir="${dist}"       />
+        <delete dir="${war}"        />
+        <delete file="${war-file}"  />
+                 
+    </target>
+
+    <target name="compile" description="Compile the source">
+
+        <mkdir dir="${build}"   />
+        <mkdir dir="${dist}"    />
+        <mkdir dir="${work}"    />
+
+        <javac  srcdir="${src}" destdir="${build}"
+                debug="true" debuglevel="lines,vars,source" >
+            <classpath>
+                <fileset dir="/usr/share/tomcat9/lib/" >
+                    <include name="**/*.jar"/>
+                </fileset>
+                <fileset dir="${lib}" >
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+
+        <jar    destfile="${dist}/frostbite-tiger.jar"
+                basedir="${build}"
+                includes="**/*.class"/>
+
+        <!-- 
+          -
+          -  Create war structure 
+          -
+          -->
+
+        <mkdir dir="${war}"                         />
+        <mkdir dir="${war}/WEB-INF/lib"             />
+        <mkdir dir="${war}/WEB-INF/classes"         />
+
+        <copy   file="${dist}/frostbite-tiger.jar" 
+                todir="${war}/WEB-INF/lib"          />
+
+        <copy   file="${conf}/web.xml"            
+                todir="${war}/WEB-INF/"             />
+
+        <fail message="The properties file ${work}/frosty.properties is not present in the ${work} dir. Copy this file from the templates dir into the ${work} dir, and edit the file to provide the appropriate property values for your environemnt.">
+            <condition>
+                <not>
+                    <available file="${work}/frosty.properties" />
+                </not>
+            </condition>
+        </fail>
+
+        <copy   file="${work}/frosty.properties"            
+                todir="${war}/WEB-INF/classes"      />
+
+        <copy todir="${war}/">
+            <fileset dir="${html}" />
+        </copy> 
+
+        <!--
+          -
+          - Copy third party jars
+          -
+          -->
+        <copy todir="${war}/WEB-INF/lib">
+            <fileset dir="${lib}" />
+        </copy> 
+
+
+        <jar    destfile="${war-file}"
+                basedir="${war}"
+                includes="**/*" />
+
+    </target>
+
+    <target name="copy-html" description="Copy html files">
+        <copy todir="/var/lib/tomcat9/webapps/frostbite-tiger/">
+            <fileset dir="${html}" />
+        </copy> 
+    </target>
+
+</project>

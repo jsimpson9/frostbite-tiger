@@ -1,0 +1,310 @@
+<html>
+    <head>
+        <title>Frostbite Tiger Home</title>
+
+        <script type="text/javascript" 
+                src="js/jquery/jquery-3.0.0.min.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/jquery-ui/jquery-ui.min.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/common-utils.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/object-registry.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/cookie-manager.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/menu-system.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/detail-map.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/detail-view.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/world-map.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/construction-view.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/object-view.js">
+        </script>
+
+        <script type="text/javascript" 
+                src="js/frostycomps/template-view.js">
+        </script>
+
+        <!-- 
+          -
+          - Styles used for detail-map
+          -
+          -->
+        <style> 
+
+
+            .detail-map-td-tile         {   position: relative; 
+                                            top: 0; left: 0;    
+                                        } 
+
+            .detail-map-td-resource     {   position: absolute; 
+                                            top: 0; left: 0;    
+                                            display: none;
+                                        } 
+
+            .detail-map-td-structure    {   position: absolute; 
+                                            top: 0; left: 0;    
+                                        } 
+
+            .detail-map-td-selector     {   position: absolute; 
+                                            top: 0; left: 0;    
+                                        } 
+
+            .detail-map-td-selector-anchored        
+                                        {   position: absolute; 
+                                            top: 0; left: 0;    
+                                        } 
+        </style>
+
+
+        <!-- 
+          -
+          - Styles used by menu-system and all main components that
+          - integrate with menu-system (so all components basically...)
+          -
+          -->
+        <style>
+
+            .menubar     { font-size: small; }
+
+        </style>
+
+
+        <!-- 
+          -
+          - Styles used by home.html for the divs for each main component 
+          -
+          -->
+        <style>
+
+            .outline    { outline: 1px solid black; }
+
+        </style>
+
+    </head>
+
+    <body bgcolor="black" text="white" >
+       
+        <script type="text/javascript">
+
+            //
+            // Some constants for now. Might move these later.
+            //
+            var WORLD_WIDTH = 2000;
+            var WORLD_HEIGHT = 2000;
+
+            var DETAIL_WIDTH = 16;
+            var DETAIL_HEIGHT = 16;
+
+            var objectRegistry = new ObjectRegistry();
+
+            //
+            // Reg system components
+            //
+            objectRegistry.register("cookie-manager",   new CookieManager() );
+            objectRegistry.register("menu-system",      new MenuSystem() );
+
+            //
+            // Reg UI view components
+            //
+            objectRegistry.register("detail-map",       new DetailMap() );
+            objectRegistry.register("detail-view",      new DetailView() );
+            objectRegistry.register("world-map",        new WorldMap() );
+            objectRegistry.register("construction-view", new ConstructionView() );
+            objectRegistry.register("object-view",      new ObjectView() );
+            objectRegistry.register("template-view",    new TemplateView() );
+
+        </script>
+
+        <div id="menu-system-div">
+        </div>
+        
+        <script type="text/javascript">
+            objectRegistry.get("menu-system").render("menu-system-div");
+        </script>
+
+        <div id="msgid">
+        </div>
+
+        <table  
+                cellpadding="0" 
+                cellspacing="0" 
+                border="0"
+                bordercolor="white" 
+                style="border-collapse: separate; empty-cells: hide;" >
+
+            <tr>
+
+                <!-- COMPONENT - DETAIL MAP DETAILMAP -->
+
+                <td id='detailmap-td' width="512" valign="top" >
+
+                    <div id='detail-map-div' class='outline' >
+                    </div>
+                 
+                    <script type="text/javascript">
+                        objectRegistry.get("detail-map").render("detail-map-div");
+                    </script>
+
+                </td>
+
+                <!-- COMPONENT - DETAIL VIEW DETAILVIEW WINDOW/TAB -->
+
+                <td id='detailview-td' valign="top" align="left" >
+
+                    <div id='detail-view-div' class="outline"
+                            style="display: none" >
+                    </div>
+
+                    <script type="text/javascript">
+                        objectRegistry.get("detail-view").render("detail-view-div");
+                    </script>
+
+                </td>
+
+                <!-- COMPONENT - WORLD MAP -->
+
+                <td id='worldmap-td' valign="top" align="left">
+
+                    <div id='world-map-div' class="outline" >
+                    </div>
+
+                    <script type="text/javascript">
+                        objectRegistry.get("world-map").render("world-map-div");
+                    </script>
+
+                </td>
+
+                <!-- COMPONENT - CONSTRUCTION VIEW -->
+
+                <td id='construction-td' valign="top" align="left" >
+
+                    <div id='construction-view-div' class="outline"> 
+                    </div>
+
+                    <script type="text/javascript">
+                        objectRegistry.get("construction-view").render("construction-view-div");
+                    </script>
+
+                </td>
+
+
+                <!-- COMPONENT - OBJECT VIEW -->
+
+                <td id='object-td' valign="top" align="left" >
+
+                    <div id='object-view-div' class="outline"> 
+                    </div>
+
+                    <script type="text/javascript">
+                        objectRegistry.get("object-view").render("object-view-div");
+                    </script>
+
+                </td>
+
+
+                <!-- COMPONENT TEMPLATE - EMPTY TEMPLATE FOR EXAMPLE NEW TAB/WINDOW -->
+
+                <td id='template-td' width="100%" valign="top" align="left">
+
+                    <div id='template-view-div' class="outline"
+                            width="100%" valign="top" align="left">
+                    </div>
+
+                    <script type="text/javascript">
+                        objectRegistry.get("template-view").render("template-view-div");
+                    </script>
+
+
+
+                </td>
+
+            </tr>
+
+        </table>
+
+        <!-- INIT - INITIALIZATION -->
+
+        <!--
+          -
+          - Initialization after page load.
+          -
+          -
+          -->
+        <script type="text/javascript">
+
+            $( document ).ready(function() {
+
+                //
+                // Get user.
+                //
+                $.post('SessionServlet', {}, function(result) {
+
+                    var jsonObj = $.parseJSON(result);
+
+                    if(jsonObj.retError) {
+
+                        //
+                        // Not logged in. Send them to the welcome screen.
+                        //
+                        $("#msgid").text(jsonObj.retMessage);
+                        $("body").text("Redirecting...");
+                        window.location.replace('index.html');
+
+                    } else {
+
+                        // $("#profilelink").attr("href", "profile.html");
+                        $("#usercell").html(
+                            "User: " + jsonObj.retObject.username + 
+                            "&nbsp;" );
+                    }
+
+                });
+
+                //
+                // Init components. 
+                //
+
+                var detailMap = objectRegistry.get("detail-map");
+                detailMap.loadTileTypes();
+                detailMap.loadMap(0,0);
+
+                var detailView = objectRegistry.get("detail-view");
+                detailView.loadResourceTypes();
+
+                var constructionView = objectRegistry.get("construction-view");
+                constructionView.loadStructureTypes();
+
+            });
+
+        </script>
+
+    </body>
+
+</html>
+

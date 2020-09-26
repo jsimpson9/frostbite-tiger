@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Frostbite Tiger Profile</title>
+
+        <script type="text/javascript" src="js/jquery-3.0.0.min.js">
+        </script>
+
+    </head>
+
+    <body bgcolor="black" text="white">
+        
+        <!--
+          -
+          - Main nav bar
+          -
+          -->
+        <table width="100%" bgcolor="#222222" >
+                <tr>
+                    <td width="10%">
+                        <a href="index.html">Welcome</a>
+                    </td>
+                    <td width="60%">&nbsp;</td>
+                    <td id='homecell' width="10%" nowrap>
+                        <a id='homelink' href="home.html">Home</a>
+                    </td>
+                    <td width="10%">
+                        <a href="SessionServlet?action=logout">Logout</a>
+                    </td>
+                </tr>
+        </table>
+
+        <center>
+
+            <h1>Profile</h1>
+
+        </center>
+
+
+        <div id="msgid">
+        </div>
+
+        <script type="text/javascript">
+
+            $( document ).ready(function() {
+
+                $.post('SessionServlet', {}, function(result) {
+
+                    var jsonObj = $.parseJSON(result);
+
+                    if(jsonObj.retError) {
+
+                        //
+                        // Not logged in. Send them to the welcome screen.
+                        //
+                        $("#msgid").text(jsonObj.retMessage);
+                        window.location.replace('index.html');
+
+                    } 
+
+                });
+            });
+
+        </script>
+
+    </body>
+
+</html>
+

@@ -1,0 +1,153 @@
+<html>
+    <head>
+        <title>Frostbite Tiger Login</title>
+
+        <script type="text/javascript" src="js/jquery/jquery-3.0.0.min.js">
+        </script>
+
+    </head>
+
+    <body bgcolor="black" text="white">
+
+        <!--
+          -
+          - Main nav bar
+          -
+          -->
+        <table width="100%" bgcolor="#222222" >
+                <tr>
+                    <td width="10%">
+                        <a href="index.html">Welcome</a>
+                    </td>
+                    <td width="90%">
+                        &nbsp;
+                    </td>
+                </tr>
+        </table>
+
+        <center>
+            <h2>Login</h2>
+        </center>
+
+        <center>
+
+            <form id="loginform" method="post" >
+
+                <table cellpadding='1' cellspacing='0' border='0' >
+
+                    <tr>
+                        <td align="right">
+                            Username: 
+                        </td>
+                        <td align="left">
+                            <input 
+                                id="username"
+                                name="username" 
+                                type="text" />
+                        </td>
+                    </tr>
+     
+                    <tr>
+                        <td align="right">
+                            Password: 
+                        </td>
+                        <td align="left">
+                            <input  name="password" type="password" 
+                                    onkeypress="checkEnter(event)"/>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td align="right">
+                            <input  type="button" 
+                                    id="cancelbutton" value="Cancel"/>
+                        </td>
+                        <td align="left">
+                            <input  type="button" 
+                                    id="loginbutton" value="Login"/>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+            <div id="msgid">
+            </div>
+
+        </center>
+
+        <script type="text/javascript">
+            //
+            // Allow the enter key to submit login from password field
+            //
+            function checkEnter(e) {
+                console.log("Checking enter key...");
+                if (e.keyCode == 13) {
+                    console.log("Clicking login...");
+                    $("#loginbutton").click();
+                }
+            }
+        </script>
+
+        <script type="text/javascript">
+
+            //
+            // Redirect to home if we are already logged in
+            //
+            $( document ).ready(function() {
+
+                $.post('SessionServlet', {}, function(response) {
+
+                    var jsonObj = $.parseJSON(response);
+
+                    if(jsonObj.retObject) {
+                        window.location.replace('home.html');
+                    }
+
+                });
+
+                $("#username").focus();
+
+            });
+
+
+            $("#cancelbutton").click(function() {
+                    window.location.href = 'index.html';
+            });
+
+            $("#loginbutton").click(function() {
+
+                console.log('Login button clicked!');
+                $("#msgid").text("");
+
+                var data = $('#loginform').serialize();
+                $.post('LoginServlet', data, function(response) {
+                    
+                    console.log("Login response", response);
+
+                    var jsonObj = $.parseJSON(response);
+
+                    if(jsonObj.retError) {
+                        $("#msgid").text(jsonObj.retMessage);
+                    } else {
+                        $("#msgid").text("Login successful!");
+                        window.location.href = 'home.html';
+                    }
+
+                })
+                .fail( function(response) {
+
+                    console.log("Login fail response", response);
+                    alert("Login failed");
+
+                });
+            });
+
+        </script>
+
+
+    </body>
+
+</html>
+

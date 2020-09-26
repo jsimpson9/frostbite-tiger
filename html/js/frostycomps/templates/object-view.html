@@ -1,0 +1,80 @@
+
+
+    <!--
+      -
+      - Create our tab header
+      -
+      -->
+    <table width="100%" bgcolor="#222222" class="menubar">
+        <tr>
+            <td align="left">Objects</td>
+            <td id='object-view-div-toggle-x'
+                style="cursor: pointer"
+                align="right">x</td>
+        </tr>
+    </table>
+
+    <!--
+      -
+      - Component body
+      -
+      -
+      -->
+    <div id='object-view-body'
+            style=" padding: 5px;
+                    position: relative;
+                    height: 500px;
+                    border: 1px solid white;
+                    width: 300px;
+                    overflow-y: scroll; " >
+
+       	Create new Object type. 
+
+		<form   action="service" 
+                method="post" 
+				enctype="multipart/form-data">
+
+            <input id="typeName" type="text" name="typeName" />
+            <input id="typeImage" type="file" name="typeImage" />
+		</form>
+
+        <button id="upload">Upload</button>
+
+		<script>
+		    $("#upload").on("click", function() {
+
+                console.log("Handle upload click...");
+
+            	var name		= $("#typeName").val();
+            	var file_data 	= $("#typeImage").prop("files")[0];   
+            	var form_data 	= new FormData();
+
+            	form_data.append("typeName", name);
+            	form_data.append("typeImage", file_data);
+
+                console.log("Handle upload form_data...", form_data);
+
+    			$.ajax({
+        			url: "upload",
+        			dataType: 'script',
+        			cache: false,
+        			contentType: false,
+        			processData: false,
+        			data: form_data,                         
+        			type: 'post',
+        			success: function(){
+            			alert("works"); 
+        			}
+    			});
+			});
+        </script>
+
+        <table  id='object-view-table'
+                width="100%"
+                cellpadding="1"
+                cellspacing="0"
+                border="0"
+                bordercolor="white" >
+        </table>
+    </div>
+

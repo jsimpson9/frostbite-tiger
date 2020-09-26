@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Frostbite Tiger</title>
+
+        <script type="text/javascript" src="js/jquery/jquery-3.0.0.min.js">
+        </script>
+
+    </head>
+
+    <body bgcolor="black" text="white">
+
+        
+        <!--
+          -
+          - Main nav bar
+          -
+          -->
+        <table width="100%" bgcolor="#222222">
+                <tr>
+                    <td width="10%">
+                        <a id='homelink' href=""></a>
+                    </td>
+                    <td width="70%">&nbsp;</td>
+                    <td width="10%">
+                        <a id='reglink' href=""></a>
+                    </td>
+                    <td width="10%">
+                        <a id="loginlink" href=""></a>
+                    </td>
+                </tr>
+        </table>
+
+        <center>
+
+            <h2>Welcome</h2>
+
+        </center>
+
+
+
+        <script type="text/javascript">
+
+            //
+            // Check if we are already logged in and 
+            // adjust nav bar items for logged in and non-logged in users.
+            //
+            $(document).ready(function() {
+
+                $.post('SessionServlet', {}, function(result) {
+
+                    var jsonObj = $.parseJSON(result);
+
+                    if(jsonObj.retObject) {
+
+                        //
+                        // User is logged in
+                        //
+
+                        $("#reglink").hide();
+                        $("#loginlink").hide();
+
+                        $("#homelink").attr("href", "home.html");
+                        $("#homelink").text("Home");
+
+                    } else {
+
+                        //
+                        // No user logged in
+                        //
+
+                        $("#homelink").hide();
+
+                        $("#reglink").attr("href", "register.html");
+                        $("#reglink").text("Register");
+
+                        $("#loginlink").attr("href", "login.html");
+                        $("#loginlink").text("Login");
+
+                    }
+
+                });
+            });
+
+        </script>
+
+
+    </body>
+
+</html>
+

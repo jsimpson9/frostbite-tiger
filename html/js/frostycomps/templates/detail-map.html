@@ -1,0 +1,281 @@
+
+    <!--
+      -
+      -     Component tab header
+      -
+      -->
+    <table width="100%" bgcolor="#222222" class="menubar" >
+        <tr>
+            <td width="5%" align="left" nowrap>Detail Map</td>
+            <td width="5%" align="right" nowrap>
+                (<a id='detail-map-nav-div-toggle' href="#">Navigation</a>)
+            </td>
+            <td width="85%" align="right">&nbsp;</td>
+            <td width="5%"  align="right" 
+                id='detail-map-div-toggle-x'
+                style="cursor: pointer" >x
+            </td>
+        </tr>
+    </table>
+   
+    <!--
+      -
+      -     Detail Map div component body
+      -
+      -
+      -->
+    <div id='mapdiv' >
+    
+        <table  cellpadding="0" cellspacing="0" border="0"
+                bordercolor="white" >
+
+            <tr>
+                <!--
+                  -
+                  - Main UI of component.
+                  -
+                  -->
+                <td valign="top">
+
+                    <div style="position: relative">
+
+                        <!--
+                          -
+                          - The tiles themselves go in this table.
+                          -
+                          -
+                          -->
+                        <table  id='maptable'
+                                    style="table-layout:fixed; display: block;" 
+                                    width="512"
+                                    cellpadding="0" 
+                                    cellspacing="0" 
+                                    border="0">
+                        </table>
+  
+                        <div    id="detail-map-loading-message"
+                                style="position: absolute; 
+                                    top: 0; 
+                                    left: 0; 
+                                    width: 512;
+                                    height: 512; 
+                                    text-align: center; 
+                                    vertical-align: middle; " >
+                        
+                            <table  with="512" height="512" 
+                                    style="width: 512px; height: 512px; "
+                                    cellpadding="0" 
+                                    cellspacing="0" 
+                                    border="0"
+                                <tr>
+                                    <td width="100%" align="center" >
+                                        Loading . . .
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!--
+                      -
+                      - Coordinate display, mode, go box. coords. 
+                      -
+                      -->
+                    <table  width="100%" 
+                            cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td width="35%" align="left" valign="top">
+                                <span   id='detailmap-message-area' 
+                                        style="font-size: small; font-family: courier;">
+                                        &nbsp;
+                                </span>
+                            </td>
+                            <td width="40%" align="left" valign="top" >
+                                <span   id='detailmap-mode-area' 
+                                        style=" vertical-align: top;
+                                                font-size: small; 
+                                                font-family: courier; ">
+                                        &nbsp;
+                                </span>
+                            </td>
+                            <td width="25%" align="right" valign="top" 
+                                nowrap>
+
+                                <span   id='detailmap-go-area' 
+                                        style="font-size: small; font-family: courier;">
+                                    Go <input   id="detailmap-go-coords" 
+                                                type="textfield"
+                                                style="width:100px;"
+                                                onkeypress="objectRegistry.get('detail-map').goCoords(event)" />
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+                
+                <!--
+                  -
+                  - Closeable subcomponents in additional cells.
+                  -
+                  -->
+                <!-- SUB-COMPONENT SUBCOMPONENT - MAP NAVIGATION MAPNAV -->
+
+                <td id='mapnav-td' valign="top" nowrap>
+
+                    <div id='detail-map-nav-div' 
+                            style="display: none" >
+
+                        <!--
+                          -
+                          - Subcomponent header
+                          -
+                          -->
+                        <table width="100%" bgcolor="#222222" 
+                                    cellpadding="1" 
+                                    cellspacing="0"
+                                    border="0" >
+                            <tr>
+                                <td id='detail-map-nav-div-toggle-x' 
+                                    style="cursor: pointer" 
+                                    align="right">-&nbsp;</td>
+                            </tr>
+                        </table>
+
+          
+                        <!--
+                          -
+                          - Subcomponent body
+                          -
+                          -->
+                        <table  cellpadding="0"
+                                cellspacing="0"
+                                border="1" 
+                                bordercolor="white" >
+
+                            <tr>
+
+                                <td nowrap 
+                                    style=" padding: 5px" >
+
+                                    <br />
+
+                                    <!--
+                                      -
+                                      - Map navigation
+                                      -
+                                      -->
+                                    <div id='mapnavdiv' >
+
+                                        <table id='mapnavtable'>
+                                            <tr>
+                                                <td>
+                                                </td>
+
+                                                <td style="cursor: pointer" >
+                                                        <!-- &#8598; -->
+                                                </td>
+                                                <td style="cursor: pointer" >
+                                                        &uarr;
+                                                </td>
+                                                <td style="cursor: pointer" >
+                                                        <!-- &#8599; -->
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                            &nbsp;
+                                                </td>
+
+                                                <td style="cursor: pointer" >
+                                                            &larr;
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td style="cursor: pointer" >
+                                                            &rarr;
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+
+                                                <td style="cursor: pointer" >
+                                                            <!-- &#8601; -->
+                                                </td>
+                                                <td style="cursor: pointer" >
+                                                            &darr;
+                                                </td>
+                                                <td style="cursor: pointer" >
+                                                            <!-- &#8600; -->
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!--
+                                          -
+                                          - Apply filters for different 
+                                          - features to display.
+                                          -
+                                          -->
+
+                                        <br />
+
+                                        <div style="font-size: small; font-family: courier;">
+                                            <input  id="detail-map-cb-terrain"
+                                                    type="checkbox" />
+                                                    Terrain <br/>
+
+                                            <input  id="detail-map-cb-resource"
+                                                    type="checkbox" />
+                                                    Resources <br/>
+
+                                            <input  id="detail-map-cb-structure"
+                                                    type="checkbox" 
+                                                    checked />
+                                                    Structures <br/>
+
+                                            <input  id="detail-map-cb-connectable"
+                                                    type="checkbox" />
+                                                    Connectables  <br/>
+
+                                            <input type="checkbox" />
+                                                    Units <br/>
+
+                                            <input type="checkbox" />
+                                                    Characters <br/>
+
+                                            <input type="checkbox" />
+                                                    Activity <br/>
+                                            
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                                
+                                <!-- spacer between next component map -->
+                                <!--
+                                <td>
+                                    &nbsp;
+                                </td>
+                                -->
+                                    
+                            </tr>
+
+                        </table>    <!-- close subcomponent body    -->
+
+                    </div>          <!-- close subcomponent div     -->
+
+                </td>               <!-- close subcomponent cell    -->
+
+            </tr>
+
+        </table>                    <!-- close main table component -->
+
+    </div>                          <!-- close component            -->
+
+
