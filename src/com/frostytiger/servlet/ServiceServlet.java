@@ -32,6 +32,8 @@ public class ServiceServlet extends HttpServlet {
                             HttpServletResponse response) 
                                 throws ServletException, IOException {
 
+        System.out.println("DEBUG doPost()");
+
         //
         // Write json to this object
         //
@@ -58,6 +60,8 @@ public class ServiceServlet extends HttpServlet {
 
             return;
         }
+
+        System.out.println("DEBUG Operation is: " + op);
 
         try {
 
