@@ -83,13 +83,15 @@ public class MidpointDisplacement {
         width = wmult*power + 1;
         height = hmult*power + 1;
   
-        // System.out.println(
-        //    "INFO Map Generation: width " + width + " height " + height);
+        System.out.println(
+            "INFO Map Generation: width " + width + " height " + height);
 
         // initialize arrays to hold values 
         float[][] map = new float[width][height];
         int[][] returnMap = new int[width][height];
    
+        // System.out.println(
+        //    "INFO Map Generation: Created array.");
    
         // int step = power/2;
         int step = power/2;
@@ -103,17 +105,26 @@ public class MidpointDisplacement {
    
         // Initialize the grid points
 
+        // System.out.println(
+        //    "INFO Map Generation: init grid points.");
+
         for (int i=0; i<width; i+=2*step) {
             for (int j=0; j<height; j+=2*step) {
                 map[i][j] = random(2*h);
             }
         }
  
+        // System.out.println(
+        //    "INFO Map Generation: step " + step);
+
         // Do the rest of the magic
 
         while (step > 0) {   
 
             // Diamond step
+
+            // System.out.println(
+            //    "INFO Map Generation: Diamond step.");
 
             for (int x = step; x < width; x+=2*step) {
                 for (int y = step; y < height; y+=2*step) {
@@ -126,6 +137,9 @@ public class MidpointDisplacement {
             }
     
             // Square step
+
+            // System.out.println(
+            //    "INFO Map Generation: Square step.");
 
             for (int x = 0; x < width; x+=step) {
                 for (int y = step*(1-(x/step)%2); y<height; y+=2*step) {
@@ -158,6 +172,9 @@ public class MidpointDisplacement {
    
         // Normalize the map
 
+        // System.out.println(
+        //        "INFO Map Generation: Normalize the map.");
+
         float max = Float.MIN_VALUE;
         float min = Float.MAX_VALUE;
         for (float[] row : map) {
@@ -168,6 +185,9 @@ public class MidpointDisplacement {
         }
    
         // Use the thresholds to fill in the return map
+
+        // System.out.println(
+        //    "INFO Map Generation: Use the thresholds to fill in the map.");
 
         for(int row = 0; row < map.length; row++){
             for(int col = 0; col < map[row].length; col++){
@@ -181,6 +201,9 @@ public class MidpointDisplacement {
 
             }
         }
+
+        // System.out.println(
+        //        "INFO Map Generation: return map.");
  
         return returnMap;
     }

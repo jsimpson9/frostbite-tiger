@@ -245,16 +245,27 @@ public class MapManager {
                                         heightMult, 
                                         smoothness );
 
+        System.out.println("DEBUG Creating main map...");
+
         int[][] map = md.getMap(elevationThresholds);
+
+        System.out.println("DEBUG Creating temperature map...");
 
         int[][] temperatureMap      = md.getMap(fixedThresholds);
 
+
         List<ResMapWrapper> resourceMaps = new ArrayList<ResMapWrapper>();    
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 2; i++) {
+
+            System.out.println("DEBUG Creating resource map..." + i);
             int[][] resourceTypeMap     = md.getMap(fixedThresholds);
+
+            System.out.println("DEBUG Creating resource amount map...");
             int[][] resourceAmountMap   = md.getMap(fixedThresholds);
-            resourceMaps.add(new ResMapWrapper(resourceTypeMap, resourceAmountMap));
+
+            resourceMaps.add(
+                new ResMapWrapper(resourceTypeMap, resourceAmountMap));
         }
 
         int genWidth    = md.getWidth();
